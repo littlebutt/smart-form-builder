@@ -1,5 +1,9 @@
-import { Input, Select } from "antd"
+import { Checkbox, Input, Select } from "antd"
 import { ReactNode } from "react"
+import TextWidget from "./widgets/text-widget"
+import SelectWidget from "./widgets/select-widget"
+import CheckboxWidget from "./widgets/checkbox-widget"
+
 
 export interface Widget {
     name: string,
@@ -9,29 +13,29 @@ export interface Widget {
 
 const widgetList: Widget[] = [
   {
-    name: "label",
-    label: "标签",
-    node: (
-      <div>
-                标签
-      </div>
-    )
-  },
-  {
     name: "text",
     label: "单行输入",
     node: (
       <div>
-        <Input></Input>
+        <TextWidget style={{width: "95%"}}></TextWidget>
+      </div>
+      )
+  },
+  {
+    name: "select",
+    label: "下拉选择",
+    node: (
+      <div>
+        <SelectWidget style={{width: "95%"}}></SelectWidget>
       </div>
     )
   },
   {
-    name: "select",
-    label: "下拉框",
+    name: "checkbox",
+    label: "复选框",
     node: (
       <div>
-        <Select></Select>
+        <CheckboxWidget style={{width: "95%"}}></CheckboxWidget>
       </div>
     )
   }

@@ -20,10 +20,12 @@ export default function RootLayout({
             components: {
               Button: {
                 borderRadius: 2
+              },
+              Input: {
+                borderRadius: 2
               }
             },
             token: {
-              // TODO: 字体
               fontFamily: "pingfang SC, helvetica neue, arial, hiragino sans gb, microsoft yahei ui, microsoft yahei, simsun, 'sans-serif'"
             },
           }}
