@@ -17,8 +17,9 @@ const TextWidget = React.forwardRef<HTMLDivElement, TextWidgetProps>((props, ref
     }
     return (
     <div style={style}>
-        <label htmlFor="input">单行输入</label>
-        <Input id="input" disabled></Input>
+        <label htmlFor="input">单行文本</label>
+        <Input id="input"></Input>
+        <span style={{fontSize: "12px"}}>提示信息</span>
       </div>
     )
 })

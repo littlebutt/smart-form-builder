@@ -15,8 +15,8 @@ const FormBuilder: React.FC = () => {
 
   const formCanvasRef = useRef<FormCanvasRef>(null)
 
-  const addNode = (node: ReactNode) => {
-    formCanvasRef.current?.addNode(node)
+  const addNode = (node: ReactNode, info?: string) => {
+    formCanvasRef.current?.addNode(node, info)
   }
   useEffect(() => {
     //formCanvasRef.current?.addNode(<div key="c">c</div>)
@@ -26,7 +26,7 @@ const FormBuilder: React.FC = () => {
     <div>
       <Row style={{height: windowSize.height}} gutter={5}>
         <Col span={6}>
-          <Toolbar addNode={addNode} ></Toolbar>
+          <Toolbar addNode={addNode} currentWidget={currentWidget} setCurrentWidget={setCurrentWidget} ></Toolbar>
         </Col>
         <Col span={12}>
           <FormCanvas ref={formCanvasRef} cols={3} height={windowSize.height} width={748} currentWidget={currentWidget} setCurrentWidget={setCurrentWidget}>

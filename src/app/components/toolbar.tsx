@@ -3,10 +3,12 @@ import { Button, Flex } from "antd"
 import React, { ReactNode } from "react"
 
 import { Widget, default as widgets }from "./widgets" 
-import { FormCanvasRef } from "./form-canvas"
+import { WidgetProperty } from "./widget-info"
 
 export interface ToolbarProps {
-    addNode: (node: ReactNode) => void
+    addNode: (node: ReactNode, info?: string) => void,
+    currentWidget?: WidgetProperty,
+    setCurrentWidget: (current: WidgetProperty) => void
 }
 
 
@@ -18,10 +20,18 @@ const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>((props, _ref) => 
   }
 
   const doAddNode = (node: ReactNode, key: string) => {
+    const _key = generateKey(key)
+    const defaultLabel = ""
     const newNode = React.cloneElement(node as React.ReactElement<{ key?: string }>, {
-      key: generateKey(key)
+      key: _key
     })
-    props.addNode(newNode)
+    const info = {
+      name: _key,
+      label: defaultLabel, // unused
+      type: key
+    }
+    props.setCurrentWidget(info)
+    props.addNode(newNode, JSON.stringify(info))
   }
 
   return (

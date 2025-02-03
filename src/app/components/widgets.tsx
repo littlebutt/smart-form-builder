@@ -14,10 +14,10 @@ export interface Widget {
 const widgetList: Widget[] = [
   {
     name: "text",
-    label: "单行输入",
+    label: "单行文本",
     node: (
       <div>
-        <TextWidget style={{width: "95%"}}></TextWidget>
+        <TextWidget></TextWidget>
       </div>
       )
   },
@@ -26,7 +26,7 @@ const widgetList: Widget[] = [
     label: "下拉选择",
     node: (
       <div>
-        <SelectWidget style={{width: "95%"}}></SelectWidget>
+        <SelectWidget></SelectWidget>
       </div>
     )
   },
@@ -35,7 +35,7 @@ const widgetList: Widget[] = [
     label: "复选框",
     node: (
       <div>
-        <CheckboxWidget style={{width: "95%"}}></CheckboxWidget>
+        <CheckboxWidget></CheckboxWidget>
       </div>
     )
   }

@@ -19,7 +19,7 @@ export interface FormCanvasProps {
 }
 
 export interface FormCanvasRef {
-    addNode: (node: ReactNode) => void,
+    addNode: (node: ReactNode, info?: string) => void,
     getLayouts: () => FormCanvasLayout[]
 }
 
@@ -39,17 +39,50 @@ const FormCanvas = React.forwardRef<FormCanvasRef, FormCanvasProps>((props, ref)
   const [layouts, setLayouts] = useState<Layout[]>([])
   const [rawNodes, setRawNodes] = useState<ReactNode[]>(children)
   const [nodes, setNodes] = useState<ReactNode[]>([])
-  const changeLayout: (layouts: Layout[]) => void = (layouts) => {
+  const changeLayout = (layouts: Layout[]) => {
     setLayouts(layouts)
     console.log(layouts)
   }
 
   const addNode = (node: ReactNode, info?: string) => {
-    const newNode = Object.assign({}, node, {})
+    let newNode: ReactNode
+    if (React.isValidElement(node)) {
+      newNode = React.cloneElement(node as React.ReactElement<{ 'data-memo'?: string }>, {
+        'data-memo': info
+      })
+    }
     setRawNodes(prevNodes => [...prevNodes, newNode])
   }
 
   const getLayouts = () => layouts
+
+  const getLayoutByKey = (key: string) => {
+    let results =  layouts.filter((layout) => layout.i.includes(key))
+
+    if (results.length > 0) {
+      return results[0]
+    } else {
+      console.error("Cannot find target layout")
+      return null
+    }
+  }
+
+  const getWidgetLabelAndHT = (name: string) => {
+    const element = document.querySelector(`[data-memo*="${name}"]`)
+    const label = element?.children[0]?.children[0]
+    const helpText = element?.children[0]?.children[2]
+    return [label, helpText]
+  }
+
+  const addSelectOption = (name: string, options: string[]) => {
+    const element = document.querySelector(`[data-memo*="${name}"]`)
+    const selectElement = element?.children[0]?.children[1]
+    if (selectElement) {
+      // TODO: add stubs
+    } else {
+      console.error("Cannot find Select tag")
+    }
+  }
 
   React.useImperativeHandle(
     ref,
@@ -68,15 +101,42 @@ const FormCanvas = React.forwardRef<FormCanvasRef, FormCanvasProps>((props, ref)
         })
         // 2. Add onClick handler
         const newNewNode = React.cloneElement(newNode as React.ReactElement<{ onClick?:  React.MouseEventHandler<HTMLDivElement> }>, {
-          onClick: () => {
-
+          onClick: (event: any) => {
+            const dataMemo = event.currentTarget.getAttribute('data-memo')
+            const _currentWidget: WidgetProperty = JSON.parse(dataMemo)
+            const layout: GridLayout.Layout = getLayoutByKey(_currentWidget.name) as GridLayout.Layout
+            // 2.1 Update currentWidget
+            const [label, helpText] = getWidgetLabelAndHT(_currentWidget.name)
+            props.setCurrentWidget({
+              type: _currentWidget.type,
+              name: _currentWidget.name,
+              height: layout.h,
+              width: layout.w,
+              left: layout.x,
+              top: layout.y,
+              label: label?.innerHTML || "",
+              helpText: helpText?.innerHTML || "",
+              stub: "" // TODO: add stub
+            })
           }
         })
+        return newNewNode
       }
       return child
     }) as ReactNode[]
     setNodes(_nodes)
-  }, [rawNodes])
+  // XXX: 通过以来列表的变化重新绑定onClick函数，需要优化
+  }, [rawNodes, layouts])
+
+  useEffect(() => {
+    const [label, helpText] = getWidgetLabelAndHT(props.currentWidget?.name ?? "")
+    if (label) {
+      label.innerHTML = props.currentWidget?.label || ""
+    }
+    if (helpText) {
+      helpText.innerHTML = props.currentWidget?.helpText || ""
+    }
+  }, [props.currentWidget])
 
   return (
     <GridLayout

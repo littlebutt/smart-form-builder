@@ -1,6 +1,5 @@
 "use client"
 
-import { Select } from "antd"
 import React, { CSSProperties } from "react"
 
 export interface SelectWidgetProps {
@@ -17,7 +16,7 @@ const SelectWidget = React.forwardRef<HTMLDivElement, SelectWidgetProps>((props,
     return (
         <div style={style}>
             <label htmlFor="select">下拉选择</label>
-            <Select id="select" disabled></Select>
+            <select id="select" style={{border: "solid 1px rgb(217, 217, 217)", borderRadius: "2px", height: "32px"}}></select>
             <span style={{fontSize: "12px"}}>提示信息</span>
         </div>
     )
