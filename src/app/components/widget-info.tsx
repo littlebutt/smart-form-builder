@@ -1,6 +1,6 @@
 "use client"
 
-import { Col, Divider, Input, Row } from "antd"
+import { Button, Col, Divider, Input, Row } from "antd"
 import React from "react"
 
 
@@ -18,7 +18,8 @@ export interface WidgetProperty {
 
 export interface WidgetInfoProps {
     widgetProperty?: WidgetProperty,
-    setWidgetProperty: (widgetProperty: WidgetProperty) => void
+    setWidgetProperty: (widgetProperty: WidgetProperty) => void,
+    removeNode: (name: string) => void
 }
 
 export interface WidgetInfoRef {
@@ -34,9 +35,10 @@ const WidgetInfo = React.forwardRef<WidgetInfoRef, WidgetInfoProps>((props, ref)
       case "checkbox": return "复选框"
       case "radio": return "单选框"
       case "date": return "日期选择"
-      case "datetime": return "时间选择"
+      case "datetime": return "日期时间选择"
       case "file": return "文件上传"
       case "textarea": return "多行文本"
+      default: return "未选择"
     }
   }
 
@@ -58,6 +60,15 @@ const WidgetInfo = React.forwardRef<WidgetInfoRef, WidgetInfoProps>((props, ref)
     props.setWidgetProperty({
       ...props.widgetProperty as WidgetProperty,
       stub: e.target.value
+    })
+  }
+
+  const doRemoveNode = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    props.removeNode(props.widgetProperty?.name as string)
+    props.setWidgetProperty({
+      type: "",
+      name: "",
+      label: ""
     })
   }
 
@@ -85,8 +96,8 @@ const WidgetInfo = React.forwardRef<WidgetInfoRef, WidgetInfoProps>((props, ref)
         <Row style={{height: "60px"}}>
           <Col span={24} style={{display: "flex", flexDirection: "column", gap: "4px"}}>
             <label htmlFor="selectOption">下拉选项</label>
-            <Input id="selectOption" onChange={changeStub}></Input>
-            <span>用“/”分隔每个选项</span>
+            <Input id="selectOption" value={props.widgetProperty?.stub} onChange={changeStub}></Input>
+            <span style={{fontSize: "14px", color: "#262626"}}>用“/”分隔每个选项</span>
           </Col>
         </Row>
       )}
@@ -94,8 +105,8 @@ const WidgetInfo = React.forwardRef<WidgetInfoRef, WidgetInfoProps>((props, ref)
         <Row style={{height: "60px"}}>
           <Col span={24} style={{display: "flex", flexDirection: "column", gap: "4px"}}>
             <label htmlFor="checkboxOption">复选框选项</label>
-            <Input id="checkboxOption" onChange={changeStub}></Input>
-            <span>用“/”分隔每个选项</span>
+            <Input id="checkboxOption" value={props.widgetProperty?.stub} onChange={changeStub}></Input>
+            <span style={{fontSize: "14px", color: "#262626"}}>用“/”分隔每个选项</span>
           </Col>
         </Row>
       )}
@@ -103,8 +114,8 @@ const WidgetInfo = React.forwardRef<WidgetInfoRef, WidgetInfoProps>((props, ref)
         <Row style={{height: "60px"}}>
           <Col span={24} style={{display: "flex", flexDirection: "column", gap: "4px"}}>
             <label htmlFor="radioOption">单选框选项</label>
-            <Input id="radioOption" onChange={changeStub}></Input>
-            <span>用“/”分隔每个选项</span>
+            <Input id="radioOption" value={props.widgetProperty?.stub} onChange={changeStub}></Input>
+            <span style={{fontSize: "14px", color: "#262626"}}>用“/”分隔每个选项</span>
           </Col>
         </Row>
       )}
@@ -127,6 +138,14 @@ const WidgetInfo = React.forwardRef<WidgetInfoRef, WidgetInfoProps>((props, ref)
         <Col span={12} style={{display: "flex", flexDirection: "row", gap: "20px", alignItems: "end", justifyContent: "space-between"}}>
           <label>宽度</label>
           <div style={{fontWeight: 600}}>{props.widgetProperty?.width}</div>
+        </Col>
+      </Row>
+      <Row style={{height: "60px"}}>
+        <Col span={12} style={{padding: "2px"}}>
+          <Button block onClick={doRemoveNode}>删除</Button>
+        </Col>
+        <Col span={12} style={{padding: "2px"}}>
+          <Button type="primary" block>保存</Button>
         </Col>
       </Row>
     </div>

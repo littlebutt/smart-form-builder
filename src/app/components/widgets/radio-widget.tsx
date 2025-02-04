@@ -2,11 +2,11 @@
 
 import React, { CSSProperties } from "react"
 
-export interface SelectWidgetProps {
+export interface RadioWidgetProps {
     style?: CSSProperties
 }
 
-const SelectWidget = React.forwardRef<HTMLDivElement, SelectWidgetProps>((props, ref) => {
+const RadioWidget = React.forwardRef<HTMLDivElement, RadioWidgetProps>((props, ref) => {
     const style: CSSProperties = {
         ...props.style,
         display: "flex",
@@ -15,11 +15,12 @@ const SelectWidget = React.forwardRef<HTMLDivElement, SelectWidgetProps>((props,
     }
     return (
         <div style={style}>
-            <label>下拉选择</label>
-            <select style={{border: "solid 1px rgb(217, 217, 217)", borderRadius: "2px", height: "32px"}}></select>
+            <label>单选框</label>
+            <div style={{display: "flex", flexDirection: "row"}}>
+            </div>
             <span style={{fontSize: "12px"}}>提示文本</span>
         </div>
     )
 })
 
-export default SelectWidget
+export default RadioWidget

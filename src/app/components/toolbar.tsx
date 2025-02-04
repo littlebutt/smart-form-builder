@@ -30,7 +30,7 @@ const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>((props, _ref) => 
       label: defaultLabel, // unused
       type: key
     }
-    props.setCurrentWidget(info)
+    // props.setCurrentWidget(info)
     props.addNode(newNode, JSON.stringify(info))
   }
 

@@ -15,14 +15,10 @@ const CheckboxWidget = React.forwardRef<HTMLDivElement, CheckboxWidgetProps>((pr
     }
     return (
         <div style={style}>
-            <label htmlFor="checkbox">复选框</label>
+            <label>复选框</label>
             <div style={{display: "flex", flexDirection: "row"}}>
-            {/* <div>
-                <input type="checkbox" id="default1" name="default1" checked />
-                <label htmlFor="default1">选项1</label>
-            </div> */}
             </div>
-            <span style={{fontSize: "12px"}}>提示信息</span>
+            <span style={{fontSize: "12px"}}>提示文本</span>
         </div>
     )
 })

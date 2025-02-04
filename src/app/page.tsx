@@ -18,6 +18,10 @@ const FormBuilder: React.FC = () => {
   const addNode = (node: ReactNode, info?: string) => {
     formCanvasRef.current?.addNode(node, info)
   }
+
+  const removeNode = (name: string) => {
+    formCanvasRef.current?.removeNode(name)
+  }
   useEffect(() => {
     //formCanvasRef.current?.addNode(<div key="c">c</div>)
   }, [])
@@ -29,11 +33,11 @@ const FormBuilder: React.FC = () => {
           <Toolbar addNode={addNode} currentWidget={currentWidget} setCurrentWidget={setCurrentWidget} ></Toolbar>
         </Col>
         <Col span={12}>
-          <FormCanvas ref={formCanvasRef} cols={3} height={windowSize.height} width={748} currentWidget={currentWidget} setCurrentWidget={setCurrentWidget}>
+          <FormCanvas ref={formCanvasRef} cols={4} height={windowSize.height} width={748} currentWidget={currentWidget} setCurrentWidget={setCurrentWidget}>
           </FormCanvas>
         </Col>
         <Col span={6}>
-          <WidgetInfo widgetProperty={currentWidget} setWidgetProperty={setCurrentWidget}></WidgetInfo>
+          <WidgetInfo widgetProperty={currentWidget} setWidgetProperty={setCurrentWidget} removeNode={removeNode}></WidgetInfo>
         </Col>
       </Row>
     </div>

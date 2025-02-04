@@ -1,13 +1,12 @@
 "use client"
 
-import { Input } from "antd"
 import React, { CSSProperties } from "react"
 
-export interface TextWidgetProps {
+export interface TextareaWidgetProps {
     style?: CSSProperties
 }
 
-const TextWidget = React.forwardRef<HTMLDivElement, TextWidgetProps>((props, ref) => {
+const TextareaWidget = React.forwardRef<HTMLDivElement, TextareaWidgetProps>((props, ref) => {
     const style: CSSProperties = {
         ...props.style,
         display: "flex",
@@ -16,11 +15,11 @@ const TextWidget = React.forwardRef<HTMLDivElement, TextWidgetProps>((props, ref
     }
     return (
     <div style={style}>
-        <label>单行文本</label>
-        <Input></Input>
+        <label>多行文本</label>
+        <textarea></textarea>
         <span style={{fontSize: "12px"}}>提示文本</span>
       </div>
     )
 })
 
-export default TextWidget
+export default TextareaWidget
