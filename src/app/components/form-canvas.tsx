@@ -263,7 +263,6 @@ const FormCanvas = React.forwardRef<FormCanvasRef, FormCanvasProps>((props, ref)
     }
   }, [props.currentWidget])
 
-  // TODO: 设置可删除
   return (
     <GridLayout
       className="__layout"

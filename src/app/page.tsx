@@ -3,12 +3,16 @@ import { Col, Row } from "antd"
 import Toolbar from "./components/toolbar"
 import useWindowSize, { WindowSize } from "./hook/use-window-size"
 import FormCanvas, { FormCanvasRef } from "./components/form-canvas"
-import { ReactNode, useEffect, useRef, useState } from "react"
+import { ReactElement, ReactNode, useEffect, useRef, useState } from "react"
 import WidgetInfo, { WidgetProperty } from "./components/widget-info"
+import React from "react"
+import widgetList from "./components/widgets"
 
+export interface FormBuilderProps {
+  initDidgets: WidgetProperty[]
+}
 
-
-const FormBuilder: React.FC = () => {
+const FormBuilder: React.FC<FormBuilderProps> = (props) => {
   const windowSize: WindowSize | undefined = useWindowSize()
 
   const [currentWidget, setCurrentWidget] = useState<WidgetProperty>()
@@ -23,7 +27,26 @@ const FormBuilder: React.FC = () => {
     formCanvasRef.current?.removeNode(name)
   }
   useEffect(() => {
-    //formCanvasRef.current?.addNode(<div key="c">c</div>)
+    props.initDidgets.forEach((w) => {
+      const candidates = widgetList.filter((_w) => _w.name === w.type)
+      let candidate
+      if (candidates.length > 0) {
+        candidate = candidates[0]
+      } else {
+        return
+      }
+      const newNode = React.cloneElement(candidate.node as ReactElement<{
+        'data-grid': any
+      }>, {
+        'data-grid': {
+          x: w.left,
+          y: w.top,
+          w: w.width,
+          h: w.height
+        }
+      })
+      formCanvasRef.current?.addNode(newNode)
+    })
   }, [])
   
   return (
